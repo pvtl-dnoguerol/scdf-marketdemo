@@ -5,6 +5,7 @@ import io.pivotal.marketdemo.notifier.data.ThresholdRepository;
 import net.pushover.client.PushoverClient;
 import net.pushover.client.PushoverMessage;
 import net.pushover.client.PushoverRestClient;
+import net.pushover.client.Status;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +48,11 @@ public class NotifierConfiguration {
                 currentCount++;
                 // if threshold is exceeded, send notification and reset count
                 if (currentCount >= config.getThreshold()) {
-                    logger.info("Threshold exceeded; sending push message");
+                    logger.info("Threshold exceeded; sending push message with user ID " + config.getUserKey());
                     // send push message
                     PushoverClient client = new PushoverRestClient();
-                    client.pushMessage(PushoverMessage.builderWithApiToken(config.getApiKey()).setUserId(config.getUserKey()).setMessage(config.getMessage()).build());
+                    Status status = client.pushMessage(PushoverMessage.builderWithApiToken(config.getApiKey()).setUserId(config.getUserKey()).setMessage(config.getMessage()).build());
+                    logger.info("Push request returned with status: " + status.getStatus());
                     repository.save(new Threshold(0));
                 } else {
                     repository.save(new Threshold(currentCount));

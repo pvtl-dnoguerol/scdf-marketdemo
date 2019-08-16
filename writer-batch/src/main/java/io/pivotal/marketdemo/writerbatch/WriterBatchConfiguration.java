@@ -18,7 +18,6 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.adapter.ItemWriterAdapter;
 import org.springframework.batch.item.json.JacksonJsonObjectMarshaller;
 import org.springframework.batch.item.json.JacksonJsonObjectReader;
 import org.springframework.batch.item.json.JsonItemReader;
@@ -102,7 +101,7 @@ public class WriterBatchConfiguration {
     public ItemWriter<CustomerPricing> customerPricingWriter(@Value("#{jobParameters[date]}") String date) {
         return pricings -> {
             for (CustomerPricing pricing : pricings) {
-                writeCustomerPricing(pricing, date);
+                writeCustomerPricing(pricing, date != null ? date : config.getDate());
             }
         };
     }

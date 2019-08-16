@@ -31,6 +31,9 @@ public class DownloadTasklet implements Tasklet {
     @Override
     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
         Object o = chunkContext.getStepContext().getJobParameters().get("date");
+        if (o == null) {
+            o = config.getDate();
+        }
         if (o != null) {
             String inFilename = o.toString() + ".csv";
             logger.info("Downloading end-of-day pricing data from: " + inFilename);

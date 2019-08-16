@@ -8,6 +8,7 @@ public class WriterBatchProperties {
     private String awsSecretKey = "";
     private String s3InputBucket = "mdc-in";
     private String s3OutputBucket = "mdc-out";
+    private String date = null;
 
     public String getAwsAccessKey() {
         return awsAccessKey;
@@ -39,5 +40,13 @@ public class WriterBatchProperties {
 
     public void setS3OutputBucket(String s3OutputBucket) {
         this.s3OutputBucket = s3OutputBucket;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

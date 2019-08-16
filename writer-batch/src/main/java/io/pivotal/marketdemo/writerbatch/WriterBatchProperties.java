@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("writer-batch")
 public class WriterBatchProperties {
     private String awsAccessKey = "";
-    private String awsSecretKey = ""
+    private String awsSecretKey = "";
     private String s3InputBucket = "mdc-in";
     private String s3OutputBucket = "mdc-out";
 

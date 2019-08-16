@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import io.pivotal.marketdemo.writerbatch.model.ClosePrice;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -44,6 +45,8 @@ public class DownloadTasklet implements Tasklet {
                     String[] p = line.split(",");
                     return new ClosePrice(p[0], Double.parseDouble(p[1]));
                 }).collect(Collectors.toList()));
+            } catch (Exception e) {
+                chunkContext.getStepContext().getStepExecution().setExitStatus(new ExitStatus("FAILED", e.getMessage()));
             } finally {
                 inputStream.close();
             }
